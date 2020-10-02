@@ -30,7 +30,8 @@ using namespace std;
 
 int main(){
 	listaDC paises;
-	paises.llenarPaises();
+	paises.llenarListaPais();
+	paises.Mostrar();
 	return 0;
 }
 

@@ -1,5 +1,6 @@
 #include<fstream>
 #include <iostream>
+#include <stdlib.h>
 using namespace std;
 
 class nodo {
@@ -49,7 +50,7 @@ class listaDC {
     void BorrarInicio();
     void BorrarPosicion(int pos);
     int largoLista();\
-    void llenarPaises();
+    void llenarListaPais();
     
    private:
     pnodo primero;
@@ -257,7 +258,7 @@ void listaDC::Mostrar()
      cout<<endl;
 }   
 
-void listaDC::llenarPaises(){
+void listaDC::llenarListaPais(){
 	ifstream archivo;
 	string texto;
 	archivo.open("Paises.txt",ios::in);
@@ -268,13 +269,10 @@ void listaDC::llenarPaises(){
 	while(!archivo.eof()){
 		getline(archivo,texto);
 		int posPC = texto.find(";");
-		int codPais = atoi(texo.substr(0,posPC-1).c_str());
-		cout<<"Nitro loca"<<endl;
-		cout<<"Codigo Pais"<<codPais<<endl;
+		int codPais = atoi(texto.substr(0,posPC).c_str());
+		string nomPais = texto.substr(posPC+1,texto.length());
+		InsertarFinal(codPais,nomPais);
+		cout<<endl;
 		}
 		archivo.close();
 }
-
-
-
-
