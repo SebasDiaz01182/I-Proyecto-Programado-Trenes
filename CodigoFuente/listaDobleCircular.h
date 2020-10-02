@@ -1,24 +1,30 @@
-
+#include<fstream>
 #include <iostream>
 using namespace std;
 
 class nodo {
    public:
-    nodo(int v)
+    nodo(int v,string cpais)
     {
        valor = v;
+       pais = cpais;
        siguiente = NULL;
        anterior =NULL;
+       ciudad = NULL;
     }
 
-   nodo(int v, nodo * signodo)
+   nodo(int v,string cpais, nodo * signodo, nodo * sigCiudad)
     {
        valor = v;
+       pais = cpais;
        siguiente = signodo;
+       ciudad = sigCiudad;
     }
 
  private:
     int valor;
+    string pais;
+    nodo *ciudad;
     nodo *siguiente;
     nodo *anterior;
     
@@ -32,9 +38,9 @@ class listaDC {
     listaDC() { primero = NULL; }
     ~listaDC();
     
-    void InsertarInicio(int v);
-    void InsertarFinal(int v);
-    void InsertarPos (int v, int pos);
+    void InsertarInicio(int v,string pais);
+    void InsertarFinal(int v,string pais);
+    void InsertarPos (int v,string pais, int pos);
     bool ListaVacia() { return primero == NULL; } 
     void Imprimir();
     void Borrar(int v);
@@ -42,7 +48,8 @@ class listaDC {
     void BorrarFinal();
     void BorrarInicio();
     void BorrarPosicion(int pos);
-    int largoLista();
+    int largoLista();\
+    void llenarPaises();
     
    private:
     pnodo primero;
@@ -84,18 +91,18 @@ int listaDC::largoLista()
     
 }
 
-void listaDC::InsertarInicio(int v)
+void listaDC::InsertarInicio(int v,string pais)
 {
   
    if (ListaVacia())
    {
-     primero = new nodo(v);
+     primero = new nodo(v,pais);
      primero->anterior=primero;
      primero->siguiente=primero;
    }  
    else
    {
-     pnodo nuevo=new nodo (v);
+     pnodo nuevo=new nodo (v,pais);
      nuevo->siguiente=primero;
      nuevo->anterior= primero->anterior;
      primero->anterior->siguiente=nuevo;
@@ -104,17 +111,17 @@ void listaDC::InsertarInicio(int v)
    }
 }
  
-void listaDC::InsertarFinal(int v)
+void listaDC::InsertarFinal(int v,string pais)
 {
    if (ListaVacia())
      {
-     primero = new nodo(v);
+     primero = new nodo(v,pais);
      primero->anterior=primero;
      primero->siguiente=primero;
    }  
    else
    { 
-     pnodo nuevo = new nodo(v);
+     pnodo nuevo = new nodo(v,pais);
      nuevo->anterior = primero->anterior;
      nuevo->siguiente=primero->anterior->siguiente;
      primero->anterior->siguiente=nuevo;
@@ -123,22 +130,22 @@ void listaDC::InsertarFinal(int v)
 }
 
 
-void listaDC::InsertarPos(int v,int pos)
+void listaDC::InsertarPos(int v,string pais,int pos)
 {
    if (ListaVacia())
    {
-     primero = new nodo(v);
+     primero = new nodo(v,pais);
      primero->anterior=primero;
      primero->siguiente=primero;
    } 
    else
    {
       if(pos <=1)
-        InsertarInicio(v);    
+        InsertarInicio(v,pais);    
        else
        {
         if (pos==largoLista())
-          InsertarFinal(v);
+          InsertarFinal(v,pais);
         else
         {     
              pnodo aux= primero;
@@ -148,7 +155,7 @@ void listaDC::InsertarPos(int v,int pos)
                    i++;
                    aux=aux->siguiente;
              }
-             pnodo nuevo= new nodo(v);
+             pnodo nuevo= new nodo(v,pais);
              nuevo->siguiente=aux->siguiente;
              aux->siguiente=nuevo;
              aux->siguiente->anterior=aux;
@@ -243,10 +250,31 @@ void listaDC::Mostrar()
    while(aux->siguiente!=primero)
      {
                                 
-      cout << aux->valor << "-> ";
+      cout << aux->valor << "-"<<aux->pais<<"->";
       aux = aux->siguiente;
      }
-     cout<<aux->valor<<"->";
+     cout << aux->valor << "-"<<aux->pais<<"->";
      cout<<endl;
 }   
+
+void listaDC::llenarPaises(){
+	ifstream archivo;
+	string texto;
+	archivo.open("Paises.txt",ios::in);
+	if (archivo.fail()){
+		cout<<"No se pudo abrir el archivo";
+		exit(1);
+	}
+	while(!archivo.eof()){
+		getline(archivo,texto);
+		int posPC = texto.find(";");
+		int codPais = atoi(texo.substr(0,posPC-1).c_str());
+		cout<<"Nitro loca"<<endl;
+		cout<<"Codigo Pais"<<codPais<<endl;
+		}
+		archivo.close();
+}
+
+
+
 

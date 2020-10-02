@@ -1,75 +1,75 @@
 #include <iostream>
 using namespace std;
-//TDA Tipo abstracto de datos, no pertenece al lenguaje, sin embargo cuando el programador lo define se puede empezar a utilizar
-class nodo { //Clase Nodo
+//TDA Tipo abstractos de Datos, no pertenece al lenguaje, sin embargo, cuando el programador lo define se puede empezar a utilizar
+
+class nodoSimp { //clase NODO
 	
    public:
-    nodo(int v) // Tiene diferente cantidad de parametros, diferente tipo. Mismo nimbre de la clase
+    nodoSimp(int v) // 20 Tiene diferente cantidad de parametros, diferente tipos. Mismo nombre de la clase
     {
-       valor = v;
+       valor = v;//20
        siguiente = NULL;
     }
 
-nodo(int v, nodo * signodo) // Comparte la direccion de memoria
+ 
+    nodoSimp(int v, nodoSimp * signodo) // 2 dirprimero direccion de memoria
     {
-       valor = v;
-       siguiente = signodo;
+       valor = v;//2
+       siguiente = signodo;//primero
     }
 
-   private: // Atributo
-    int valor; // Valor entero
-    nodo *siguiente; // Tipo de clase, autoreferencia
+
+   private: // atributos
+    int valor; // tipo entero. Ej clase estudiante nombre,dir,tel,siguente
+    nodoSimp *siguiente; // tipo de la clase, clase autoreferencia. Direccion 
     
         
-   friend class lista; //Permite que se compartan los metodos
-};
+   friend class lista; // telefono, son amigas lista con la clase. Solo los metodos, constructores
 
-typedef nodo *pnodo;  // Alias, redefinir los punteros
+};
+typedef nodoSimp *pnodoSimp; //alias redefinir los punteros
 
 class lista {
    public:
-    lista() { primero = actual = NULL; }
+    lista()
+	{
+      primero=NULL;   	
+    	
+	}
     ~lista();
-    
     void InsertarInicio(int v);
     void InsertarFinal(int v);
     void InsertarPos (int v, int pos);
-    void EliminarInicio();
-    void EliminarFinal();
-    void EliminarPos(int pos);
     bool ListaVacia() { return primero == NULL; } 
     void Imprimir();
-    void Borrar(int v);
     void Mostrar();
-    void Siguiente();
     void Primero();
-    void Ultimo();
-    void BorrarFinal();
+	void BorrarFinal();
     void BorrarInicio();
     void borrarPosicion(int pos);
     int largoLista();
-    
+      
    private:
-    pnodo primero;
-    pnodo actual;
+    pnodoSimp primero; // nodo *primero; tipo nodo tiene derechoi direccionar un nodo
+   
 };
-
-lista::~lista()
+  
+lista::~lista() //Destructor
 {
-   pnodo aux;
+   pnodoSimp aux;
    
    while(primero) {
       aux = primero;
       primero = primero->siguiente;
       delete aux;
    }
-   actual = NULL;
+  
 }
 
-int lista::largoLista(){
+int lista::largoLista(){ //largo
     int cont=0;
 
-    pnodo aux;
+    pnodoSimp aux; //nodo *aux;
     aux = primero;
     if(ListaVacia()){
         return cont;
@@ -86,52 +86,50 @@ int lista::largoLista(){
 void lista::InsertarInicio(int v)
 {
    if (ListaVacia())
-     primero = new nodo(v);
-     primero->siguiente=primero;
+     primero = new nodoSimp(v);
    else
-   { pnodo aux2=primero;
-   while (aux2->siguiente!=primero){
-   	aux2=aux2->siguiente
-   }
-     primero=new nodo (v,primero);
-     aux2->siguiente=primero
-   }
-     
+     primero=new nodoSimp (v,primero);
 }
  
 void lista::InsertarFinal(int v)
 {
    if (ListaVacia())
-     primero = new nodo(v);
+     primero = new nodoSimp(v);
    else
-     { pnodo aux = primero;
+     { pnodoSimp aux = primero;
         while ( aux->siguiente != NULL)
           aux= aux->siguiente;
-        aux->siguiente=new nodo(v);
+        aux->siguiente=new nodoSimp(v);
       }    
 }
 
-
-void lista::InsertarPos(int v,int pos)
+void lista::InsertarPos(int v, int pos) 
 {
    if (ListaVacia())
-     primero = new nodo(v);
+     primero = new nodoSimp(v);
    else{
-        if(pos <=1){
-          pnodo nuevo = new nodo(v);
+        if(pos <=1){                     //InsertarInicio(v);
+          pnodoSimp nuevo = new nodoSimp(v);
           nuevo->siguiente= primero;
           primero= nuevo;     
         }      
-        else{
-             pnodo aux= primero;
+        else
+		{
+        	if (pos>=largoLista())
+			   InsertarFinal(v);
+			else
+			{
+			
+             pnodoSimp aux= primero;
              int i =2;
              while((i != pos )&&(aux->siguiente!= NULL)){
                    i++;
                    aux=aux->siguiente;
              }
-             pnodo nuevo= new nodo(v); // Crea el nodo
-             nuevo->siguiente=aux->siguiente;  // Enlaza el nodo con el siguiente(dirección)
-             aux->siguiente=nuevo;  // Se acomoda las direcciones anteriores
+             pnodoSimp nuevo= new nodoSimp(v); //1 NODO
+             nuevo->siguiente=aux->siguiente; // 2 Nuevo con el valor siguiente 20
+             aux->siguiente=nuevo;// 3 aux con nuevo
+            }
              
         }
         }
@@ -144,18 +142,16 @@ void lista::BorrarFinal()
     
    }else{
         if (primero->siguiente == NULL) {
-                pnodo temp= primero;
                 primero= NULL;
-                delete temp;
             } else {
 
-                pnodo aux = primero;
+                pnodoSimp aux = primero;
                 while (aux->siguiente->siguiente != NULL) {
                     aux = aux->siguiente;
 
                 }
                 
-              pnodo temp = aux->siguiente;
+              pnodoSimp temp = aux->siguiente;
               aux->siguiente= NULL;
 
                 
@@ -163,25 +159,30 @@ void lista::BorrarFinal()
             }
         }
 }
-dafd av
+
 void lista::BorrarInicio()
 {
     if (ListaVacia()){
      cout << "No hay elementos en la lista:" << endl;
     
-   }else{
-        if (primero->siguiente == NULL) {
-                pnodo temp= primero;
+   }else
+   {
+        if (primero->siguiente == NULL)
+		{
+        	    pnodoSimp temp=primero;
                 primero= NULL;
                 delete temp;
-            } else {
+        }
+		else
+		{
 
-                pnodo aux = primero;
+                pnodoSimp aux = primero;
                 primero=primero->siguiente;                
                 delete aux;
-            }
         }
+   }
 }
+
 
 
 void lista:: borrarPosicion(int pos){
@@ -195,7 +196,7 @@ void lista:: borrarPosicion(int pos){
         primero=primero->siguiente;
         }else{
           int cont=2;
-            pnodo aux=  primero;
+            pnodoSimp aux=  primero;
             while(cont<pos){
              aux=aux->siguiente;
              cont++;
@@ -210,7 +211,7 @@ void lista:: borrarPosicion(int pos){
 
 void lista::Mostrar()
 {
-   nodo *aux;
+   nodoSimp *aux;
    if (primero== NULL)
        cout << "No hay elementos";  
    else
@@ -225,22 +226,5 @@ void lista::Mostrar()
 		}
 		cout << endl;
    }
-}
-
-void lista::Siguiente()
-{
-   if(actual) actual = actual->siguiente;
-}
-
-void lista::Primero()
-{
-   actual = primero;
-}
-
-void lista::Ultimo()
-{
-   actual = primero;  
-   if(!ListaVacia()) 
-      while(actual->siguiente) Siguiente();
 }
 

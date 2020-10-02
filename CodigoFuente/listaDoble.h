@@ -2,29 +2,29 @@
 #include <iostream>
 using namespace std;
 
-class nodo {
+class nodoDoble {
    public:
-    nodo(string v)
+    nodoDoble(string v)
     {
        valor = v;
        siguiente = NULL;
        anterior =NULL;
     }
 
-nodo(string v, nodo * signodo)
+nodoDoble(string v, nodoDoble * signodoDoble)
     {
        valor = v;
-       siguiente = signodo;
+       siguiente = signodoDoble;
     }
     string valor;
-    nodo *siguiente;
-    nodo *anterior;
+    nodoDoble *siguiente;
+    nodoDoble *anterior;
     
         
    friend class listaD;
 };
 
-typedef nodo *pnodo;
+typedef nodoDoble *pnodoDoble;
 
 class listaD {
    public:
@@ -37,13 +37,13 @@ class listaD {
     void Imprimir();
     void Mostrar();
     int largoLista();
-    pnodo primero;
+    pnodoDoble primero;
   
 };
 
 listaD::~listaD()
 {
-   pnodo aux;
+   pnodoDoble aux;
    
    while(primero) {
       aux = primero;
@@ -56,7 +56,7 @@ listaD::~listaD()
 int listaD::largoLista(){
     int cont=0;
 
-    pnodo aux;
+    pnodoDoble aux;
     aux = primero;
     if(ListaVacia()){
         return cont;
@@ -73,12 +73,12 @@ int listaD::largoLista(){
 void listaD::InsertarInicio(string v)
 {
    if (ListaVacia()){
-   	primero = new nodo(v);
+   	primero = new nodoDoble(v);
    }
    else
    {
-   	pnodo aux= primero;
-   	primero=new nodo(v,primero);
+   	pnodoDoble aux= primero;
+   	primero=new nodoDoble(v,primero);
    	aux->anterior=primero;
    }
    
@@ -87,23 +87,23 @@ void listaD::InsertarInicio(string v)
 void listaD::InsertarFinal(string v)
 {
 	if (ListaVacia()){
-		primero= new nodo(v);
+		primero= new nodoDoble(v);
 	}
 	else
 	{
-		pnodo aux=primero
+		pnodoDoble aux=primero;
 		while(aux->siguiente!=NULL){
 			aux=aux->siguiente;
 		}
-		nuevo=new nodo(v);
+		pnodoDoble nuevo=new nodoDoble(v);
 		aux->siguiente=nuevo;
-		nuevo->anterior=aux:
+		nuevo->anterior=aux;
 		
 	}
 }
 void listaD::Mostrar()
 {
-   nodo *aux;
+   nodoDoble *aux;
    
    aux = primero;
    while(aux) {
